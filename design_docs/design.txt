@@ -1,0 +1,4 @@
+one screen should have current offers
+	8 slots
+	add pass (pass should be broken into 3 buttons: passed fast, passed medium, passed slow) or fail button to end offer
+	consider adding timer to buttons that tracks how long the offer is

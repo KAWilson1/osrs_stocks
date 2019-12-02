@@ -1,0 +1,30 @@
+primary functions
+	help decision making when picking flips
+	show data of how previously flips went
+		notes
+		ROI average
+		Speed approximation (3 button system - slow, medium or fast displayed as noting a flip is over)
+
+
+gui elements
+	home
+		find
+		add
+	find
+		show strong performers
+		filter for show
+			slow only
+			fast only
+			high volume
+			etc
+	add
+		name
+			selecting name should autofill default values into quantity (and notes?)
+		buy price
+		intended sell price
+		quantity
+		notes
+		completed
+		time of last purchase (show start and end times of transaction)
+		add
+		undo

@@ -1,0 +1,6 @@
+DATABASE WORK
+	Make database of trasactions
+	Create functions to query database effectively
+DESIGN WORK
+	implement tagging system to items
+		e.g. "favorites", "high volume", "abc123"
