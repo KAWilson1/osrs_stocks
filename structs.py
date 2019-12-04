@@ -1,17 +1,37 @@
 #TODO: make item_name the foreign key of the Item class
 
 class Transaction():
-	def __init__(self, item_name, unit_price, unit_intended_sell_price, quantity, start_time, end_time=None, notes="", completed=False):
+	def __init__(self, transaction_id, item_name, unit_price, unit_intended_sell_price, quantity, notes,
+		start_year, start_month, start_day, start_hour, start_minute, 
+		end_year="None", end_month="None", end_day="None", end_hour="None", end_minute="None",  
+		completed="None"):
+		self.transaction_id = transaction_id
 		self.item_name = item_name
 		self.unit_price = unit_price
 		self.unit_intended_sell_price = unit_intended_sell_price
 		self.quantity = quantity
-		self.start_time = start_time
+		self.notes = notes
+
+		self.start_year = start_year
+		self.start_month = start_month
+		self.start_day = start_day
+		self.start_hour = start_hour
+		self.start_minute = start_minute
+
+		self.end_year = end_year
+		self.end_month = end_month
+		self.end_day = end_day
+		self.end_hour = end_hour
+		self.end_minute = end_minute
+
+		self.completed = completed
+
 
 
 class Item():
 	def __init__(self, internal_id, name):
 		#TODO: Fill in
+		pass
 
 class ItemStats():
 	def __init__(self, item):

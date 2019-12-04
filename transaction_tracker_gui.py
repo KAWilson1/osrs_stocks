@@ -5,6 +5,8 @@ import constants
 import datetime
 import read
 import write
+import calc
+from structs import Transaction
 
 class TransactionTrackerGui:
     def __init__(self, master):
@@ -20,6 +22,7 @@ class TransactionTrackerGui:
         self.profit_default_text = "Profit: "
         self.roi_default_text = "ROI: "
         self.last_bought_at_default_text = "Last Buy Order: "
+        self.last_submitted_default_text = "Last Submitted: "
 
         self.master = master
         self.master.geometry("735x270")
@@ -87,19 +90,19 @@ class TransactionTrackerGui:
         self.lbl_last_bought_at.after(1000, self.refresh_stats_column)
 
         #Label Margin
-        self.lbl_margin = Label(master, text=self.margin_default_text + "0", fg=self.title_text, bg=self.bg, font=("Arial", 9))
+        self.lbl_margin = Label(master, text=self.margin_default_text, fg=self.title_text, bg=self.bg, font=("Arial", 9))
         self.lbl_margin.place(x=200, y=90)
 
         #Label Invested
-        self.lbl_invested = Label(master, text=self.invested_default_text + "0", fg=self.title_text, bg=self.bg, font=("Arial", 9))
+        self.lbl_invested = Label(master, text=self.invested_default_text, fg=self.title_text, bg=self.bg, font=("Arial", 9))
         self.lbl_invested.place(x=200, y=110)
 
         #Label Profit
-        self.lbl_profit = Label(master, text=self.profit_default_text + "0", fg=self.title_text, bg=self.bg, font=("Arial", 9))
+        self.lbl_profit = Label(master, text=self.profit_default_text, fg=self.title_text, bg=self.bg, font=("Arial", 9))
         self.lbl_profit.place(x=200, y=130)
 
         #Label Roi
-        self.lbl_roi = Label(master, text=self.roi_default_text + "0", fg=self.title_text, bg=self.bg, font=("Arial", 9))
+        self.lbl_roi = Label(master, text=self.roi_default_text, fg=self.title_text, bg=self.bg, font=("Arial", 9))
         self.lbl_roi.place(x=200, y=150)
 
 
@@ -115,11 +118,16 @@ class TransactionTrackerGui:
                                         activebackground=self.black_green)
         self.btn_submit.place(x=395, y=198)
 
-        #Button Reset
-        self.btn_submit = Button(master, text="Reset", command=self.reset, fg=self.button_text,
-                                        bg=self.black_green, relief="flat", activeforeground=self.button_text,
-                                        activebackground=self.black_green)
-        self.btn_submit.place(x=475, y=198)
+        #Note: Button can be removed, leaving commented in case manual testing needs to be done on reset()
+        ##Button Reset
+        #self.btn_submit = Button(master, text="Reset", command=self.reset, fg=self.button_text,
+        #                                bg=self.black_green, relief="flat", activeforeground=self.button_text,
+        #                                activebackground=self.black_green)
+        #self.btn_submit.place(x=475, y=198)
+
+
+        self.lbl_last_submitted = Label(master, text=self.last_submitted_default_text, fg=self.title_text, bg=self.bg, font=("Arial", 9))
+        self.lbl_last_submitted.place(x=460, y=200)
 
     def refresh_stats_column(self):
         try:
@@ -139,29 +147,28 @@ class TransactionTrackerGui:
 
         #Margin
         if buy != 0 and sell != 0:
-            margin = sell - buy
+            margin = calc.margin(buy, sell)
             self.lbl_margin['text'] = self.margin_default_text + " " + str(margin)
         else:
             self.lbl_margin['text'] = self.margin_default_text
 
         #Invested
         if buy != 0 and quantity != 0:
-            invested = buy * quantity * 1000
+            invested = calc.invested(buy, quantity)
             self.lbl_invested['text'] = self.invested_default_text + " " + str(invested/1000) + "k"
         else:
             self.lbl_invested['text'] = self.invested_default_text
 
         #Profit
         if buy != 0 and sell != 0 and quantity != 0:
-            profit = quantity * 1000 * margin
+            profit = calc.profit(buy, sell, quantity)
             self.lbl_profit['text'] = self.profit_default_text + " " + str(profit/1000) + "k"
         else:
             self.lbl_profit['text'] = self.profit_default_text
 
-
         #ROI
         if buy != 0 and sell != 0 and quantity != 0:
-            roi = profit / invested * 100
+            roi = calc.roi(buy, sell, quantity)
             self.lbl_roi['text'] = self.roi_default_text + " " + str(round(roi,1)) + "%"
         else:
             self.lbl_roi['text'] = self.roi_default_text
@@ -173,41 +180,29 @@ class TransactionTrackerGui:
         path = constants.PATH_TO_DATABASE
 
         #read old values
-        all_rows = read.read_database(path)
+        all_transactions = read.read_database(path)
 
-        #add new value to all_rows
-        gui_row = []
-        gui_row.append(self.txt_item_name.get())
-        gui_row.append(self.txt_buy_price.get())
-        gui_row.append(self.txt_intended_sell.get())
-        gui_row.append(self.txt_quantity.get())
-        #Start Time
-        gui_row.append(datetime.datetime.now().year)
-        gui_row.append(datetime.datetime.now().month)
-        gui_row.append(datetime.datetime.now().day)
-        gui_row.append(datetime.datetime.now().hour)
-        gui_row.append(datetime.datetime.now().minute)
-        #End Time
-        gui_row.append("None")
-        gui_row.append("None")
-        gui_row.append("None")
-        gui_row.append("None")
-        gui_row.append("None")
-        #Notes
-        gui_row.append(self.txt_notes.get('1.0', END))
-        #Completed
-        gui_row.append("None")
+        #add new value to all_transactions
+        curr_trans = Transaction(
+        len(all_transactions)+1, #id
+        self.txt_item_name.get(),
+        self.txt_buy_price.get(),
+        self.txt_intended_sell.get(),
+        self.txt_quantity.get(),
+        self.txt_notes.get('1.0', END),
+        datetime.datetime.now().year, #Start time
+        datetime.datetime.now().month,
+        datetime.datetime.now().day,
+        datetime.datetime.now().hour,
+        datetime.datetime.now().minute,
+        )
+        all_transactions.append(curr_trans)
 
-        if len(gui_row) != len(constants.TRANSACTION_HEADERS):
-            raise Exception("New transaction data does not have the same number of properties as the database.")
-        all_rows.append(gui_row)
-
-        #write headers
-        headers = constants.TRANSACTION_HEADERS
-        all_rows.insert(0, headers)
-        
         #write output
-        write.write_to_database(path, all_rows)
+        write.write_to_database(path, all_transactions)
+
+        self.lbl_last_submitted['text'] = self.last_submitted_default_text + curr_trans.item_name
+        self.reset()
         
 
     def reset(self):

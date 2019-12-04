@@ -5,8 +5,7 @@ DESIGN WORK
 	implement tagging system to items
 		e.g. "favorites", "high volume", "abc123"
 	develop undo buttons
-	Flip tracker
+	Transaction Tracker
 		Item name autocomplete or drop down menu of options
 		Autofill quantity based on item name (ge quantity or median quantity)
 		Add reject button for failed margin checks (data collection)
-	
