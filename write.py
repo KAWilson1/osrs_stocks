@@ -14,7 +14,7 @@ def write_to_database(path, transactions):
 		ws.write(i+1, 1, transactions[i].item_name) 
 		ws.write(i+1, 2, int(transactions[i].unit_price))
 		ws.write(i+1, 3, int(transactions[i].unit_intended_sell_price))
-		ws.write(i+1, 4, int(transactions[i].quantity))
+		ws.write(i+1, 4, float(transactions[i].quantity))
 		ws.write(i+1, 5, transactions[i].notes)
 		ws.write(i+1, 6, transactions[i].start_year)
 		ws.write(i+1, 7, transactions[i].start_month) 
