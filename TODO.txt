@@ -9,7 +9,6 @@ DESIGN WORK
 Transaction Tracker
 	Autocomplete item name or drop down
 	Display image of item upon selection
-	Autofill quantity with trade limit of item
 	Lookup last buy order
 	Add undo button
 	Add reject button for failed margin checks

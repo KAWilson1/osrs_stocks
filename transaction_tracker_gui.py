@@ -7,6 +7,7 @@ import read
 import write
 import calc
 from structs import Transaction
+import item_database_api
 
 class TransactionTrackerGui:
     def __init__(self, master):
@@ -50,6 +51,7 @@ class TransactionTrackerGui:
         #Item Name
         self.txt_item_name = Entry(master, width=23, bg=self.black, fg=self.button_text, relief="flat")
         self.txt_item_name.place(x=5, y=90)
+        self.txt_item_name.bind("<FocusOut>", self.lookup_buy_limit)
 
 
         #Label Buy Price
@@ -217,6 +219,13 @@ class TransactionTrackerGui:
         self.lbl_invested['text'] = self.invested_default_text
         self.lbl_profit['text'] = self.profit_default_text 
         self.lbl_roi['text'] = self.roi_default_text
+
+    def lookup_buy_limit(self, event):
+        limit = item_database_api.get_trade_limit(self.txt_item_name.get())
+        if type(limit) == int:
+            self.txt_quantity.delete(0, 'end')
+            limit_k = limit / 1000
+            self.txt_quantity.insert(0, str(limit_k))
 
 if __name__ == "__main__":
     root = Tk()
