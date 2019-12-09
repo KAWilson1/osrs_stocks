@@ -4,8 +4,17 @@ DATABASE WORK
 DESIGN WORK
 	implement tagging system to items
 		e.g. "favorites", "high volume", "abc123"
-	develop undo buttons
-	Transaction Tracker
-		Item name autocomplete or drop down menu of options
-		Autofill quantity based on item name (ge quantity or median quantity)
-		Add reject button for failed margin checks (data collection)
+
+
+Transaction Tracker
+	Autocomplete item name or drop down
+	Display image of item upon selection
+	Autofill quantity with trade limit of item
+	Lookup last buy order
+	Add undo button
+	Add reject button for failed margin checks
+Order Manager
+	Lookup last buy order
+	Add support for partially completed orders
+	Add support for change in selling price mid order
+	Add undo button
