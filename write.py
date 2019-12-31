@@ -64,5 +64,24 @@ def write_sample_data(path): #Do not use in production, overwrites database enti
 			ws.write(i+1, 16, constants.COMPLETION_SPEEDS[1])  
 	wb.close()
 
+def write_to_margin_database(path, margins):
+	wb = xlsxwriter.Workbook(path)
+	ws = wb.add_worksheet()
+
+	#add transaction headers in constants
+	for j in range(len(constants.MARGIN_HEADERS)):
+		ws.write(0, j, constants.MARGIN_HEADERS[j])
+
+	for i in range(len(margins)):
+		ws.write(i+1, 0, int(margins[i].margin_id))
+		ws.write(i+1, 1, int(margins[i].item_name))
+		ws.write(i+1, 2, int(margins[i].sell_margin))
+		ws.write(i+1, 3, int(margins[i].buy_margin))
+		ws.write(i+1, 4, int(margins[i].curr_year))
+		ws.write(i+1, 5, int(margins[i].curr_month))
+		ws.write(i+1, 6, int(margins[i].curr_day))
+		ws.write(i+1, 7, int(margins[i].curr_hour))
+		ws.write(i+1, 8, int(margins[i].curr_minute))
+		
 if __name__ == "__main__":
 	write_sample_data(constants.PATH_TO_DATABASE)

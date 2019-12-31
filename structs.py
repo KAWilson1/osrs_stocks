@@ -26,7 +26,17 @@ class Transaction():
 
 		self.completed = completed
 
-
+class MarginCheck():
+	def __init__(self, item_name, sell_margin, buy_margin, curr_year, curr_month, curr_day, curr_hour, curr_minute)
+		self.margin_id = 1
+		self.item_name = item_name
+		self.sell_margin = sell_margin
+		self.buy_margin = buy_margin
+		self.curr_year = curr_year
+		self.curr_month = curr_month
+		self.curr_day = curr_day
+		self.curr_hour = curr_hour
+		self.curr_minute = curr_minute
 
 class Item():
 	def __init__(self, internal_id, name):
