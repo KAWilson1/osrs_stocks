@@ -12,7 +12,7 @@ def read_database(path):
 			ws.cell_value(i, 1), #item name
 			int(ws.cell_value(i, 2)), #buy
 			int(ws.cell_value(i, 3)), #sell
-			int(ws.cell_value(i, 4)), #quantity
+			float(ws.cell_value(i, 4)), #quantity
 			ws.cell_value(i, 5), #notes
 			ws.cell_value(i, 6), #start time
 			ws.cell_value(i, 7), 
