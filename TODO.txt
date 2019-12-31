@@ -23,3 +23,4 @@ Margin Tracker (may be done in Transaction Tracker)
 		Buy
 		Sell
 		Datetime
+	Should merge screens (at least merge with transaction tracker)
