@@ -1,0 +1,53 @@
+Analytic tool work
+	Determine objective
+		Help find flips
+	Derive TODO from objective
+		Filtering system
+	Discuss database
+	Code
+	Review
+
+consideration for decision making for finding flips 
+	8 slot limitation
+	user's liquid capital limit
+	ge trade limit
+	time away from GE
+	ROI
+
+Parameters
+	Time (how long of an afk) for flips
+	Cash stack
+
+Perfomance metric
+	Net profit / Total cash stack
+		if this improves over time, the tool proves its worth
+
+Output
+	List of suggested items and quantities
+		Data
+			Expected margins
+			ROI
+			Investment
+			confidence metric
+				Determined by evaluating database for how
+			intended buy
+			intended sell
+
+
+
+Will need a database for predictions created
+	data properties
+		expected margins
+		item name 
+		id
+		intended buy 
+		intended sell
+		confidence metric
+		datetime
+		inputted afk time
+		inputted cash stack
+		how close to actual buy
+		how close to actual sell
+
+TODO
+	find api that tells volume traded per day
