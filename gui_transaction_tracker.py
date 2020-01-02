@@ -6,7 +6,7 @@ import datetime
 import read
 import write
 import calc
-from structs import Transaction
+from structs import Transaction, MarginCheck
 import item_database_api
 
 class TransactionTrackerGui:
@@ -107,6 +107,10 @@ class TransactionTrackerGui:
         self.lbl_roi = Label(master, text=self.roi_default_text, fg=self.title_text, bg=self.bg, font=("Arial", 9))
         self.lbl_roi.place(x=200, y=150)
 
+        #Label Last Submitted
+        self.lbl_last_submitted = Label(master, text=self.last_submitted_default_text, fg=self.title_text, bg=self.bg, font=("Arial", 9))
+        self.lbl_last_submitted.place(x=200, y=170)
+
 
         ###NOTES COLUMN###
         #Notes
@@ -114,22 +118,20 @@ class TransactionTrackerGui:
         self.txt_notes.place(x=395, y=70)
 
 
-        #Button Submit
-        self.btn_submit = Button(master, text="Submit", command=self.submit, fg=self.button_text,
+        #Button Submit Margin
+        self.btn_submit = Button(master, text="Submit Margin Check", command=self.submit_margin, fg=self.button_text,
                                         bg=self.black_green, relief="flat", activeforeground=self.button_text,
                                         activebackground=self.black_green)
         self.btn_submit.place(x=395, y=198)
 
-        #Note: Button can be removed, leaving commented in case manual testing needs to be done on reset()
-        ##Button Reset
-        #self.btn_submit = Button(master, text="Reset", command=self.reset, fg=self.button_text,
-        #                                bg=self.black_green, relief="flat", activeforeground=self.button_text,
-        #                                activebackground=self.black_green)
-        #self.btn_submit.place(x=475, y=198)
+        #Button Submit Transaction
+        self.btn_submit = Button(master, text="Submit Transaction", command=self.submit_transaction, fg=self.button_text,
+                                        bg=self.black_green, relief="flat", activeforeground=self.button_text,
+                                        activebackground=self.black_green)
+        self.btn_submit.place(x=555, y=198)
+    
 
-
-        self.lbl_last_submitted = Label(master, text=self.last_submitted_default_text, fg=self.title_text, bg=self.bg, font=("Arial", 9))
-        self.lbl_last_submitted.place(x=460, y=200)
+        
 
     def refresh_stats_column(self):
         try:
@@ -178,11 +180,37 @@ class TransactionTrackerGui:
     
         self.lbl_last_bought_at.after(1000, self.refresh_stats_column)
 
-    def submit(self):
-        path = constants.PATH_TO_DATABASE
+    def submit_margin(self):
+        path = constants.PATH_TO_MARGIN_DB #TODO: add path to other database in constants
 
         #read old values
-        all_transactions = read.read_database(path)
+        all_margin_checks = read.margin_database(path)
+
+        #add new value to all_margin_checks
+        curr_margin_check = MarginCheck(
+        len(all_margin_checks)+1, #id
+        self.txt_item_name.get(),
+        self.txt_buy_price.get(), #sell margin
+        self.txt_intended_sell.get(), #buy margin
+        datetime.datetime.now().year, #Start time
+        datetime.datetime.now().month,
+        datetime.datetime.now().day,
+        datetime.datetime.now().hour,
+        datetime.datetime.now().minute,
+        )
+        all_margin_checks.append(curr_margin_check)
+
+        #write output
+        write.margin_database(path, all_margin_checks)
+
+        self.lbl_last_submitted['text'] = self.last_submitted_default_text + curr_margin_check.item_name
+        self.reset()
+
+    def submit_transaction(self):
+        path = constants.PATH_TO_TRANSACTION_DB
+
+        #read old values
+        all_transactions = read.transaction_database(path)
 
         #add new value to all_transactions
         curr_trans = Transaction(
@@ -201,7 +229,7 @@ class TransactionTrackerGui:
         all_transactions.append(curr_trans)
 
         #write output
-        write.write_to_database(path, all_transactions)
+        write.transaction_database(path, all_transactions)
 
         self.lbl_last_submitted['text'] = self.last_submitted_default_text + curr_trans.item_name
         self.reset()
