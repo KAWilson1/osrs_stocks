@@ -11,16 +11,9 @@ Transaction Tracker
 	Display image of item upon selection
 	Lookup last buy order
 	Add undo button
-	Add reject button for failed margin checks
 Order Manager
 	Lookup last buy order
 	Add support for partially completed orders
 	Add support for change in selling price mid order
 	Add undo button
-Margin Tracker (may be done in Transaction Tracker)
-	Data properties
-		Item
-		Buy
-		Sell
-		Datetime
-	Should merge screens (at least merge with transaction tracker)
+

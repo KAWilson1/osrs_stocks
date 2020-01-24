@@ -204,7 +204,6 @@ class TransactionTrackerGui:
         write.margin_database(path, all_margin_checks)
 
         self.lbl_last_submitted['text'] = self.last_submitted_default_text + curr_margin_check.item_name
-        self.reset()
 
     def submit_transaction(self):
         path = constants.PATH_TO_TRANSACTION_DB

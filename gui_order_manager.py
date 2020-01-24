@@ -122,7 +122,7 @@ class OrderManagerGui:
         self.lb_orders.after(500, self.show_stats)
 
     def import_orders(self):
-        all_transactions = read.read_database(constants.PATH_TO_DATABASE)
+        all_transactions = read.transaction_database(constants.PATH_TO_TRANSACTION_DB)
 
         #clear Listbox and reset
         self.lb_orders.delete(0, 'end')
@@ -163,7 +163,7 @@ class OrderManagerGui:
 
     def complete_order(self, completion_code):
         completed_id = self.incomplete_orders[self.lb_orders.curselection()[0]].transaction_id
-        all_transactions = read.read_database(constants.PATH_TO_DATABASE)
+        all_transactions = read.transaction_database(constants.PATH_TO_TRANSACTION_DB)
 
         for trans in all_transactions:
             if trans.transaction_id == completed_id:
@@ -174,7 +174,7 @@ class OrderManagerGui:
                 trans.end_hour = curr_time.hour
                 trans.end_minute = curr_time.minute
                 trans.completed = completion_code
-        write.write_to_database(constants.PATH_TO_DATABASE, all_transactions)
+        write.transaction_database(constants.PATH_TO_TRANSACTION_DB, all_transactions)
         self.import_orders() #update listbox
 
 
