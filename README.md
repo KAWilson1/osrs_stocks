@@ -1,5 +1,5 @@
 # osrs_stocks
-osrs_stocks is a Python GUI tool that allows for quick and easy data collection for "flipping stocks" on the in-game stock market of Old School RuneScape.
+osrs_stocks is a Python GUI tool that allows for quick and easy data collection for "flipping stocks" on the in-game stock market of Old School RuneScape. It also has a built-in analytical tool to better advise its users about which stocks to purchase.
 
 ## Get Started
 The goal of "flipping stocks" is to buy an item which you can then sell back later for a higher price.
